@@ -379,5 +379,22 @@
       <origin xyz="0 0 0.01" rpy="0 ${pi} ${-pi/2}"/>
     </joint>
 
+    <!-- Virtual Grasp Point Link -->
+    <link name="${prefix}2f_85_grasp_point">
+    </link>
+
+    <!-- Virtual Grasp Point Fixed Joint -->
+    
+    <joint name="${prefix}2f_85_grasp_point_joint" type="fixed">
+        <parent link="${prefix}gripper_robotiq_arg2f_base_link"/>
+        <child link="${prefix}2f_85_grasp_point"/>
+        <!-- Center between finger tips -->
+        <!-- RPY - Matching the convention (same as tool0)-->
+        <!-- Z Offset - gripper length closed minus half the finger pads -->
+        <!-- <origin rpy="0 0 -1.570796325" xyz="0 0 ${0.1628-0.038/2}"/> -->
+        <!-- Z Offset - gripper length closed -->
+        <origin rpy="0 0 -1.570796325" xyz="0 0 0.1628"/>
+    </joint>
+
   </xacro:macro>
 </robot>
