@@ -390,7 +390,7 @@
     <link name="${prefix}robotiq_coupler">
       <visual>
         <geometry>
-          <mesh filename="package://robotiq_2f_85_gripper_visualization/meshes/robotiq_85_coupler.stl" />
+          <mesh filename="package://ur_description/meshes/ur5/robotiq_85_coupler.stl" />
         </geometry>
         <material name="">
             <color rgba="0.1 0.1 0.1 1"/>
@@ -398,7 +398,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://robotiq_2f_85_gripper_visualization/meshes/robotiq_85_coupler.stl" />
+          <mesh filename="package://ur_description/meshes/ur5/meshes/robotiq_85_coupler.stl" />
         </geometry>
       </collision>
       <inertial>
