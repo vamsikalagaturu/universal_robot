@@ -75,6 +75,25 @@
     <!-- Add URDF transmission elements (for ros_control) -->
     <xacro:ur_arm_transmission prefix="${prefix}" hw_interface="${transmission_hw_interface}" />
 
+    <!-- links -->
+    <link name="${prefix}table">
+      <visual>
+        <origin rpy="0 0 ${pi/2}" xyz="-0.225 0.415 -0.45"/>
+        <geometry>
+          <box size="1.00 0.80 0.90"/>
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 ${pi/2}" xyz="-0.225 0.415 -0.45"/>
+        <geometry>
+          <box size="1.00 0.80 0.90"/>
+        </geometry>
+      </collision>
+    </link>
+
     <!-- links: main serial chain -->
     <link name="${prefix}base_link"/>
     <link name="${prefix}base_link_inertia">
@@ -97,6 +116,13 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
       </xacro:cylinder_inertial>
     </link>
+
+    <joint name="${prefix}table_to_base_link" type="fixed">
+      <parent link="${prefix}table"/>
+      <child link="${prefix}base_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
     <link name="${prefix}shoulder_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
@@ -219,30 +245,6 @@
       </xacro:cylinder_inertial>
     </link>
 
-    <!-- white material for camera -->
-    <material name="white">
-      <color rgba="1 1 1 1"/>
-    </material>
-
-    <!-- Placeholder box for D405 camera -->
-    <link name="${prefix}camera_link">
-      <inertial>
-        <mass value="1.0" />
-        <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
-      </inertial>
-      <visual>
-        <geometry>
-          <box size="0.025 0.045 0.045" />
-        </geometry>
-        <material name="white"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.025 0.045 0.045" />
-        </geometry>
-      </collision>
-    </link>
-
     <!-- joints: main serial chain -->
     <joint name="${prefix}base_link-base_link_inertia" type="fixed">
       <parent link="${prefix}base_link" />
@@ -357,26 +359,69 @@
       <child link="${prefix}tool0"/>
     </joint>
 
+    <!-- Placeholder box for D405 camera -->
+    <link name="${prefix}camera_link">
+      <inertial>
+        <mass value="1.0" />
+        <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+      </inertial>
+      <visual>
+        <geometry>
+          <box size="0.025 0.045 0.045" />
+        </geometry>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.025 0.045 0.045" />
+        </geometry>
+      </collision>
+    </link>
+
     <!-- D405 Camera -->
     <joint name="camera" type="fixed">
-      <origin xyz="0.0 0.05 0.0575" rpy="-${pi/2} -${pi/2} 0"/>
+      <origin xyz="0.0 0.065 0.035" rpy="-${pi/2} -${pi/2} 0"/>
       <parent link="${prefix}wrist_3_link"/>
       <child link="${prefix}camera_link"/>
     </joint>
 
-    <!-- FT sensor -->
-    <xacro:include filename="$(find robotiq_ft_sensor)/urdf/robotiq_ft300.urdf.xacro" />
-    <xacro:robotiq_ft300 prefix="${prefix}ft_" parent="${prefix}wrist_3_link">
-      <origin xyz="0 0 -0.005" rpy="0 0 0" />
-    </xacro:robotiq_ft300>
+    <link name="${prefix}robotiq_coupler">
+      <visual>
+        <geometry>
+          <mesh filename="package://robotiq_2f_85_gripper_visualization/meshes/robotiq_85_coupler.stl" />
+        </geometry>
+        <material name="">
+            <color rgba="0.1 0.1 0.1 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://robotiq_2f_85_gripper_visualization/meshes/robotiq_85_coupler.stl" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="2.073e-05   1.45286e-03  -1.1049e-03" rpy="0 0 0" />
+        <mass value="0.168" />
+        <inertia ixx="6.69695624e-05" ixy="5.21511788e-09" ixz="-2.74383009e-08" 
+                iyy="7.85088161e-05" iyz="5.41105193e-07" izz="1.41819717e-04"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}robotiq_coupler_joint" type="fixed">
+      <origin xyz="0 0 0.004" rpy="0 0 0" />
+      <parent link="${prefix}tool0"/>
+      <child link="${prefix}robotiq_coupler"/>
+    </joint>
 
     <!-- Robotiq 2f-85 gripper -->
     <xacro:include filename="$(find robotiq_2f_85_gripper_visualization)/urdf/robotiq_arg2f_85_model_macro.xacro" />
     <xacro:robotiq_arg2f_85 prefix="${prefix}gripper_" />
     <joint name="${prefix}gripper_joint" type="fixed">
-      <parent link="${prefix}ft_ft300_sensor" />
+      <parent link="${prefix}robotiq_coupler" />
       <child link="${prefix}gripper_robotiq_arg2f_base_link"/>
-      <origin xyz="0 0 0.01" rpy="0 ${pi} ${-pi/2}"/>
+      <origin xyz="0 0 0.005" rpy="${pi} ${pi} ${-pi/2}"/>
     </joint>
 
     <!-- Virtual Grasp Point Link -->
@@ -388,12 +433,7 @@
     <joint name="${prefix}2f_85_grasp_point_joint" type="fixed">
         <parent link="${prefix}gripper_robotiq_arg2f_base_link"/>
         <child link="${prefix}2f_85_grasp_point"/>
-        <!-- Center between finger tips -->
-        <!-- RPY - Matching the convention (same as tool0)-->
-        <!-- Z Offset - gripper length closed minus half the finger pads -->
-        <!-- <origin rpy="0 0 -1.570796325" xyz="0 0 ${0.1628-0.038/2}"/> -->
-        <!-- Z Offset - gripper length closed -->
-        <origin rpy="0 0 -1.570796325" xyz="0 0 0.1628"/>
+        <origin rpy="${pi} -${pi/2} 0" xyz="0 0 0.1628"/>
     </joint>
 
   </xacro:macro>
