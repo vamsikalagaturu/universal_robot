@@ -398,7 +398,7 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://ur_description/meshes/ur5/meshes/robotiq_85_coupler.stl" />
+          <mesh filename="package://ur_description/meshes/ur5/robotiq_85_coupler.stl" />
         </geometry>
       </collision>
       <inertial>
@@ -434,6 +434,180 @@
         <parent link="${prefix}gripper_robotiq_arg2f_base_link"/>
         <child link="${prefix}2f_85_grasp_point"/>
         <origin rpy="${pi} -${pi/2} 0" xyz="0 0 0.1628"/>
+    </joint>
+
+    <!-- wall -->
+    <link name="${prefix}wall">
+      <visual>
+        <geometry>
+          <box size="0.01 2.5 3.0" />
+        </geometry>
+        <material name="">
+            <color rgba="1 0.9 0.7 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.01 2.5 3.0" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia ixx="1" ixy="0" ixz="0" 
+                iyy="1" iyz="0" izz="1"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}wall_joint" type="fixed">
+      <origin xyz="0.665 0.0 0" rpy="0 0 0" />
+      <parent link="${prefix}base"/>
+      <child link="${prefix}wall"/>
+    </joint>
+
+    <!-- camera stand -->
+    <link name="${prefix}camera_stand">
+      <visual>
+        <geometry>
+          <box size="0.02 0.04 0.76" />
+        </geometry>
+        <material name="">
+            <color rgba="0.85098 0.85098 0.85098 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.02 0.04 0.76" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia ixx="1" ixy="0" ixz="0" 
+                iyy="1" iyz="0" izz="1"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}camera_stand_joint" type="fixed">
+      <origin xyz="0.645 -0.415 0.38" rpy="0 0 0" />
+      <parent link="${prefix}base"/>
+      <child link="${prefix}camera_stand"/>
+    </joint>
+
+    <!-- camera stand horizontal -->
+    <link name="${prefix}camera_stand_horizontal">
+      <visual>
+        <geometry>
+          <box size="0.02 0.72 0.02" />
+        </geometry>
+        <material name="">
+            <color rgba="0.85098 0.85098 0.85098 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.02 0.76 0.02" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia ixx="1" ixy="0" ixz="0" 
+                iyy="1" iyz="0" izz="1"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}camera_stand_horizontal_joint" type="fixed">
+      <origin xyz="-0.36 0.0 0.38" rpy="0 0 ${pi/2}" />
+      <parent link="${prefix}camera_stand"/>
+      <child link="${prefix}camera_stand_horizontal"/>
+    </joint>
+
+    <!-- camera stand horizontal -->
+    <link name="${prefix}camera_stand_horizontal2">
+      <visual>
+        <geometry>
+          <box size="0.02 0.53 0.02" />
+        </geometry>
+        <material name="">
+            <color rgba="0.85098 0.85098 0.85098 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.02 0.53 0.02" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia ixx="1" ixy="0" ixz="0" 
+                iyy="1" iyz="0" izz="1"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}camera_stand_horizontal_joint2" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <parent link="${prefix}camera_stand_horizontal"/>
+      <child link="${prefix}camera_stand_horizontal2"/>
+    </joint>
+
+    <!-- camera ring -->
+    <link name="${prefix}camera_ring">
+      <visual>
+        <geometry>
+          <cylinder length="0.02" radius="0.24" />
+        </geometry>
+        <material name="">
+            <color rgba="0.85098 0.85098 0.85098 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder length="0.04" radius="0.24" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia ixx="1" ixy="0" ixz="0" 
+                iyy="1" iyz="0" izz="1"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}camera_ring_joint" type="fixed">
+      <origin xyz="0.0 0.0 -0.4" rpy="0 0 0" />
+      <parent link="${prefix}camera_stand_horizontal2"/>
+      <child link="${prefix}camera_ring"/>
+    </joint>
+
+    <!-- camera -->
+    <link name="${prefix}camera2">
+      <visual>
+        <geometry>
+          <cylinder length="0.04" radius="0.24" />
+        </geometry>
+        <material name="">
+            <color rgba="0.85098 0.85098 0.85098 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder length="0.04" radius="0.24" />
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia ixx="1" ixy="0" ixz="0" 
+                iyy="1" iyz="0" izz="1"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}camera2_joint" type="fixed">
+      <origin xyz="0.0 0.0 -0.4" rpy="0 0 0" />
+      <parent link="${prefix}camera_ring"/>
+      <child link="${prefix}camera2"/>
     </joint>
 
   </xacro:macro>
