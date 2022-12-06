@@ -498,7 +498,7 @@
     <link name="${prefix}camera_stand_horizontal">
       <visual>
         <geometry>
-          <box size="0.02 0.72 0.02" />
+          <box size="0.025 0.72 0.025" />
         </geometry>
         <material name="">
             <color rgba="0.85098 0.85098 0.85098 1"/>
@@ -506,7 +506,7 @@
       </visual>
       <collision>
         <geometry>
-          <box size="0.02 0.76 0.02" />
+          <box size="0.025 0.76 0.025" />
         </geometry>
       </collision>
       <inertial>
@@ -527,7 +527,7 @@
     <link name="${prefix}camera_stand_horizontal2">
       <visual>
         <geometry>
-          <box size="0.02 0.53 0.02" />
+          <box size="0.025 0.53 0.025" />
         </geometry>
         <material name="">
             <color rgba="0.85098 0.85098 0.85098 1"/>
@@ -535,7 +535,7 @@
       </visual>
       <collision>
         <geometry>
-          <box size="0.02 0.53 0.02" />
+          <box size="0.025 0.53 0.025" />
         </geometry>
       </collision>
       <inertial>
@@ -547,7 +547,7 @@
     </link>
 
     <joint name="${prefix}camera_stand_horizontal_joint2" type="fixed">
-      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 ${pi/2}" />
       <parent link="${prefix}camera_stand_horizontal"/>
       <child link="${prefix}camera_stand_horizontal2"/>
     </joint>
@@ -564,7 +564,7 @@
       </visual>
       <collision>
         <geometry>
-          <cylinder length="0.04" radius="0.24" />
+          <cylinder length="0.02" radius="0.24" />
         </geometry>
       </collision>
       <inertial>
@@ -576,7 +576,7 @@
     </link>
 
     <joint name="${prefix}camera_ring_joint" type="fixed">
-      <origin xyz="0.0 0.0 -0.4" rpy="0 0 0" />
+      <origin xyz="0.0 0.0 -0.025" rpy="0 0 0" />
       <parent link="${prefix}camera_stand_horizontal2"/>
       <child link="${prefix}camera_ring"/>
     </joint>
@@ -585,15 +585,15 @@
     <link name="${prefix}camera2">
       <visual>
         <geometry>
-          <cylinder length="0.04" radius="0.24" />
+          <cylinder length="0.03" radius="0.03" />
         </geometry>
-        <material name="">
-            <color rgba="0.85098 0.85098 0.85098 1"/>
+        <material name="white">
+          <color rgba="1 1 1 1"/>
         </material>
       </visual>
       <collision>
         <geometry>
-          <cylinder length="0.04" radius="0.24" />
+          <cylinder length="0.03" radius="0.03" />
         </geometry>
       </collision>
       <inertial>
@@ -605,7 +605,7 @@
     </link>
 
     <joint name="${prefix}camera2_joint" type="fixed">
-      <origin xyz="0.0 0.0 -0.4" rpy="0 0 0" />
+      <origin xyz="0.0 0.0 -0.015" rpy="0 0 0" />
       <parent link="${prefix}camera_ring"/>
       <child link="${prefix}camera2"/>
     </joint>
