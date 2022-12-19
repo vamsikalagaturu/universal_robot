@@ -375,7 +375,7 @@
       </visual>
       <collision>
         <geometry>
-          <box size="0.025 0.045 0.045" />
+          <box size="0.055 0.075 0.075" />
         </geometry>
       </collision>
     </link>
